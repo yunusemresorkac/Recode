@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/main_bg"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/gainLayout"
+        android:background="@drawable/round_bg"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home"
+            android:padding="@dimen/_3sdp"
+            android:layout_margin="@dimen/_6sdp"
+            android:fontFamily="@font/sugarsnow"
+            android:textColor="#FFEB3B"
+            android:textSize="16sp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+            <ImageView
+                android:layout_width="@dimen/_45sdp"
+                android:id="@+id/wallet"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:src="@drawable/diamond_svgrepo_com__1_"
+                />
+
+            <TextView
+                android:id="@+id/homeDia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:textSize="20sp"
+                android:background="?selectableItemBackground"
+                android:fontFamily="@font/sugarsnow"
+                android:text=""
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
+        <com.github.guilhe.circularprogressview.CircularProgressView
+            android:id="@+id/progressBarCircle"
+            android:layout_width="@dimen/_180sdp"
+            android:layout_height="@dimen/_180sdp"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:padding="@dimen/_20sdp"
+            app:progress="100"
+            app:progressBarColor="#FFEB3B"
+            app:progressBarThickness="@dimen/_3sdp"
+            app:progressThumb="true"
+            app:shadow="false" />
+
+
+
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/start_to_earn"
+                android:fontFamily="@font/sugarsnow"
+                android:textColor="#FFEB3B"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:textSize="18sp"
+                android:padding="@dimen/_3sdp"/>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/recyclerView"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Invite your friends and get 50 diamonds for each!"
+                android:textColor="@color/white"
+                android:fontFamily="@font/sugarsnow"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:layout_margin="@dimen/_10sdp"/>
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+
+
+
+
+
+</LinearLayout>

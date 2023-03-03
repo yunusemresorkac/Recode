@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="@dimen/_8sdp"
+    app:cardCornerRadius="@dimen/_4sdp"
+    app:cardUseCompatPadding="true"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/userlay"
+        android:background="@drawable/gradient_bg"
+        android:padding="@dimen/_5sdp"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:id="@+id/profileImage"
+            android:src="@drawable/person_fill_svgrepo_com"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/username"
+            android:fontFamily="@font/sugarsnow"
+            android:textSize="16sp"
+            android:layout_centerInParent="true"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:text="user"/>
+
+
+
+
+
+
+    </RelativeLayout>
+
+
+
+
+
+</androidx.cardview.widget.CardView>
