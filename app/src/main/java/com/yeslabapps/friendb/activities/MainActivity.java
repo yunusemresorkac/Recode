@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements InstallReferrerSt
 
 
 
+
             }
             if (selectorFragment != null) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectorFragment).commit();
