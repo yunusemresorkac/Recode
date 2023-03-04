@@ -105,7 +105,7 @@
                 android:layout_margin="@dimen/_4sdp"
                 android:textSize="18sp"
                 android:fontFamily="@font/alata"
-                android:text="Save" />
+                android:text="@string/save" />
 
 
         </LinearLayout>

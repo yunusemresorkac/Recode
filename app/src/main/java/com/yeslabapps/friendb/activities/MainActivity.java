@@ -106,22 +106,9 @@ public class MainActivity extends AppCompatActivity implements InstallReferrerSt
                     User user = snapshot.getValue(User.class);
                     HashMap<String,Object> map = new HashMap<>();
                     if (user!=null){
-                        FirebaseDatabase.getInstance().getReference().child("Points").addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if (snapshot.exists()){
-                                    map.put("diamond", user.getDiamond() +50);
-                                    FirebaseDatabase.getInstance().getReference().child("Users").child(userId)
-                                            .updateChildren(map);
-
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
+                        map.put("diamond", user.getDiamond() +50);
+                        FirebaseDatabase.getInstance().getReference().child("Users").child(userId)
+                                .updateChildren(map);
 
                     }
 

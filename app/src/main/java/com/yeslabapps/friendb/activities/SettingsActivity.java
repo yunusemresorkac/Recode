@@ -105,7 +105,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClick {
         binding.recyclerView.setHasFixedSize(true);
         menuAdapter = new MyMenuAdapter(menuArrayList,this,this);
         binding.recyclerView.setAdapter(menuAdapter);
-        menuArrayList.add(new MyMenu("Edit Profile", R.drawable.pencil_svgrepo_com));
+        menuArrayList.add(new MyMenu(getString(R.string.edit_profile), R.drawable.pencil_svgrepo_com));
         menuArrayList.add(new MyMenu(getString(R.string.support), R.drawable.headset_support_svgrepo_com));
         menuArrayList.add(new MyMenu(getString(R.string.rateus), R.drawable.star_review_ecommerce_svgrepo_com));
         menuArrayList.add(new MyMenu(getString(R.string.shareapp), R.drawable.share_svgrepo_com));

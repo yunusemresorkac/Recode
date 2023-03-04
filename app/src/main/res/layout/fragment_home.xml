@@ -110,13 +110,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Invite your friends and get 50 diamonds for each!"
-                android:textColor="@color/white"
-                android:fontFamily="@font/sugarsnow"
                 android:layout_gravity="center"
-                android:textSize="20sp"
+                android:layout_margin="@dimen/_10sdp"
+                android:fontFamily="@font/sugarsnow"
                 android:gravity="center"
-                android:layout_margin="@dimen/_10sdp"/>
+                android:text="@string/invite_your_friends_and_get_50_diamonds_for_each"
+                android:textColor="#FFEB3B"
+                android:textSize="20sp" />
 
 
         </LinearLayout>

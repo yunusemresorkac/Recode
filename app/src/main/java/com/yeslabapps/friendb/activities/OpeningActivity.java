@@ -22,14 +22,10 @@ public class OpeningActivity extends AppCompatActivity {
 
 
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                Intent i = new Intent(OpeningActivity.this, LoginActivity.class);
-                startActivity(i);
-                finish();
-            }
+        new Handler().postDelayed(() -> {
+            Intent i = new Intent(OpeningActivity.this, LoginActivity.class);
+            startActivity(i);
+            finish();
         }, 500);
 
 

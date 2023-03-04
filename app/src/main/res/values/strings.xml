@@ -1,9 +1,8 @@
 <resources>
-    <string name="app_name">Recode</string>
+    <string name="app_name" translatable="false">Recode</string>
 
-    <string name="appodealappid">bfd0ea8bc00b5fc32d57ebba45d68acd9d71f4712414f5f4</string>
+    <string name="appodealappid" translatable="false">bfd0ea8bc00b5fc32d57ebba45d68acd9d71f4712414f5f4</string>
 
-    <string name="info_payment">•A minimum of $10 can be withdrawn. \n•Make sure you enter your information correctly. \n•Payment will be made within 24 hours.</string>
 
     <string name="interneterror">Please connect to the internet</string>
     <string name="watchearn">Watch &amp; Earn</string>
@@ -37,17 +36,17 @@
     <string name="sp_n">Spın</string>
     <string name="diamonds">Diamonds</string>
     <string name="golds">Golds</string>
-    <string name="for_each_person_you_earn_50_points_copy_your_invite_code_and_give_it_to_your_friends_nclick_to_see_who_used_your_invite_code">For each person you earn 50 points. Copy your invite code and give it to your friends. \nClick to see who used your invite code</string>
     <string name="invite_code">Invite Code</string>
     <string name="check">Check</string>
     <string name="edit_profile">Edit Profile</string>
-    <string name="change_photo">Change Photo</string>
-    <string name="remove_photo">Remove Photo</string>
     <string name="watch_amp_earn"><![CDATA[Watch & Earn]]></string>
     <string name="try_again">Please Try Again.</string>
     <string name="convert">Convert Diamonds</string>
     <string name="inviteearn">Invite &amp; Earn</string>
-    <string name="faq">F.A.Q</string>
     <string name="buy">Buy</string>
+    <string name="order_not_found">Order Not Found!</string>
+    <string name="invite_your_friends_and_get_50_diamonds_for_each">Invite your friends and get 50 diamonds for each!</string>
+    <string name="minimum">Minimum 250 diamonds required.</string>
+    <string name="save">Save</string>
 
 </resources>

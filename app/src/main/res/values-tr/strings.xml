@@ -1,3 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string name="interneterror">Lütfen internete bağlanın!</string>
+    <string name="watchearn">İzle &amp; Kazan</string>
+    <string name="spinearn">Çevir &amp; Kazan</string>
+    <string name="luckyspin">Şanslı Çark</string>
+    <string name="home">Ana Sayfa</string>
+    <string name="profile">Profil</string>
+    <string name="tryagain">Yeniden Deneyin</string>
+    <string name="settings">Ayarlar</string>
+    <string name="support">Destek</string>
+    <string name="rateus">Bizi Değerlendirin</string>
+    <string name="shareapp">Uygulamayı Paylaş</string>
+    <string name="history">Siparişler</string>
+    <string name="market">Mağaza</string>
+    <string name="signout">Çıkış Yap</string>
+    <string name="invitecode">Davet Kodumu Kullananlar</string>
+
+    <string name="start_to_earn">Kazanmaya Başla</string>
+    <string name="username">Kullanıcı Adı</string>
+    <string name="email">Email</string>
+    <string name="registered_on">Kayıt Tarihi</string>
+    <string name="password">Parola</string>
+    <string name="login">Giriş Yap</string>
+    <string name="forgot_password">Şifremi Unuttum</string>
+    <string name="total_balance">Toplam Bakiye ($)</string>
+    <string name="the_amount_you_want_to_withdraw">The amount you want to withdraw</string>
+    <string name="your_wallet_address">Your Wallet Address</string>
+    <string name="conf_rm">Onayla</string>
+    <string name="spin_amp_earn"><![CDATA[Spin & Earn]]></string>
+    <string name="point">Point:</string>
+    <string name="sp_n">Çevir</string>
+    <string name="diamonds">Elmaslar</string>
+    <string name="golds">Altınlar</string>
+    <string name="invite_code">Davet Kodu</string>
+    <string name="check">Check</string>
+    <string name="edit_profile">Profili Düzenle</string>
+    <string name="watch_amp_earn"><![CDATA[İzle & Kazan]]></string>
+    <string name="try_again">Yeniden Deneyin.</string>
+    <string name="convert">Elmasları Dönüştür</string>
+    <string name="inviteearn">Davet Et &amp; Kazan</string>
+    <string name="buy">Satın Al</string>
+    <string name="order_not_found">Sipariş Bulunamadı!</string>
+    <string name="invite_your_friends_and_get_50_diamonds_for_each">Arkadaşlarını davet et ve her bir kişi için 50 elmas kazan!</string>
+    <string name="minimum">En az 250 elmas gerekli.</string>
+    <string name="save">Kaydet</string>
+
+
 </resources>

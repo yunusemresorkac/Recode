@@ -118,7 +118,7 @@ public class ProfileFragment extends Fragment implements OnClick {
             if (point >249){
                 addGold();
             }else {
-                StyleableToast.makeText(getContext(), "Minimum 250 diamonds required.", R.style.customToast).show();
+                StyleableToast.makeText(getContext(), getString(R.string.minimum), R.style.customToast).show();
             }
 
         }catch (NumberFormatException e){

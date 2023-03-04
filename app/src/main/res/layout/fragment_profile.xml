@@ -77,7 +77,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_toEndOf="@id/dollarImage"
-                android:fontFamily="@font/alata"
+                android:fontFamily="@font/sugarsnow"
                 android:text="@string/diamonds"
 
                 android:textColor="@color/white"
@@ -123,7 +123,7 @@
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:textStyle="bold"
                 android:layout_toStartOf="@id/pointImage"
-                android:fontFamily="@font/alata"
+                android:fontFamily="@font/sugarsnow"
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/white"/>
 

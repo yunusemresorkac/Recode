@@ -79,6 +79,11 @@ public class PaymentHistoryActivity extends AppCompatActivity {
             pd.dismiss();
             orderArrayList.addAll(posts);
             paymentAdapter.notifyDataSetChanged();
+            if (orderArrayList.size()==0){
+                binding.nothingfound.setVisibility(View.VISIBLE);
+            }else {
+                binding.nothingfound.setVisibility(View.GONE);
+            }
 
         });
         viewModel.getErrorMessage().observe(this, error -> {

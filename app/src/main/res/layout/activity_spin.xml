@@ -18,7 +18,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/spin_amp_earn"
+            android:text="@string/spinearn"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:fontFamily="@font/sugarsnow"/>
