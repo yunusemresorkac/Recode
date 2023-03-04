@@ -87,7 +87,7 @@ public class SpinActivity extends AppCompatActivity {
             if (Appodeal.isLoaded(Appodeal.REWARDED_VIDEO) ){
                 Appodeal.show(this,Appodeal.REWARDED_VIDEO);
             }else {
-                StyleableToast.makeText(this,"Please try again!",R.style.customToast).show();
+                StyleableToast.makeText(this,getString(R.string.try_again),R.style.customToast).show();
             }
         });
 
@@ -217,7 +217,7 @@ public class SpinActivity extends AppCompatActivity {
     }
 
     private void spin(){
-        if (mButtonRotation && binding.spinBtn.getText().toString().equals("Spın")) {
+        if (mButtonRotation ) {
             FirebaseDatabase.getInstance()
                     .getReference().child("Spin").child(firebaseUser.getUid())
                     .addValueEventListener(new ValueEventListener() {
