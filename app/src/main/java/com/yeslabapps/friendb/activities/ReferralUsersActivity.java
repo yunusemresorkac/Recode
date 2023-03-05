@@ -41,12 +41,7 @@ public class ReferralUsersActivity extends AppCompatActivity  {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        binding.toolbar.setNavigationOnClickListener(view -> finish());
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         viewModel = new ViewModelProvider(this).get(InvitersViewModel.class);

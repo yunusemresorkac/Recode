@@ -22,15 +22,15 @@
 
 
         <TextView
+            android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/username"
-            android:fontFamily="@font/sugarsnow"
-            android:textSize="16sp"
             android:layout_centerInParent="true"
+            android:fontFamily="@font/alata"
             android:maxLines="1"
+            android:text="user"
             android:textColor="@color/white"
-            android:text="user"/>
+            android:textSize="18sp" />
 
 
 

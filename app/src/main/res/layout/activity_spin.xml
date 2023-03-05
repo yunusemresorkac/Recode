@@ -69,7 +69,7 @@
             android:layout_width="@dimen/_450sdp"
             android:layout_height="@dimen/_300sdp"
             android:layout_marginTop="@dimen/_3sdp"
-            android:src="@drawable/cark"
+            android:src="@drawable/spin"
             android:id="@+id/luckyWheel"/>
 
 

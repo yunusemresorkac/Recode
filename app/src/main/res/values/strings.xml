@@ -48,5 +48,7 @@
     <string name="invite_your_friends_and_get_50_diamonds_for_each">Invite your friends and get 50 diamonds for each!</string>
     <string name="minimum">Minimum 250 diamonds required.</string>
     <string name="save">Save</string>
+    <string name="myreferrals">My Referrals</string>
+    <string name="addeddia">Diamonds Added</string>
 
 </resources>

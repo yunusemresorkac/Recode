@@ -33,12 +33,21 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
 
 import io.github.muddz.styleabletoast.StyleableToast;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Response;
 
 public class SpinActivity extends AppCompatActivity {
 
@@ -90,6 +99,56 @@ public class SpinActivity extends AppCompatActivity {
                 StyleableToast.makeText(this,getString(R.string.try_again),R.style.customToast).show();
             }
         });
+
+    }
+
+    private long getNow(){
+        final Calendar calendar = Calendar.getInstance();
+        OkHttpClient client = new OkHttpClient();
+        String url = "https://www.timeapi.io/api/Time/current/zone?timeZone=Europe/Istanbul";
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    runOnUiThread(() -> {
+                        String resStr = null;
+                        try {
+                            resStr = response.body().string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+
+                        }
+                        try {
+                            JSONObject object = null;
+                            if (resStr != null) {
+                                object = new JSONObject(resStr);
+                            }
+                            int year = object.getInt("year");
+                            int month = object.getInt("month");
+                            int day = object.getInt("day");
+                            int hour = object.getInt("hour");
+                            int minute = object.getInt("minute");
+                            calendar.set(year, month, day,
+                                    hour, minute, 0);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+
+                        }
+                    });
+                }
+            }
+        });
+
+        return calendar.getTimeInMillis()/1000;
 
     }
 
@@ -191,7 +250,7 @@ public class SpinActivity extends AppCompatActivity {
                             Spin spin = snapshot.getValue(Spin.class);
 
                             if (spin != null) {
-                                if (System.currentTimeMillis() >= spin.getNormalSpinTime() + 60 * 60 * 1000) {
+                                if (getNow() >= spin.getNormalSpinTime() + 60 * 60 * 1000) {
                                     binding.spinBtn.setEnabled(true);
 
                                 }else {
@@ -226,7 +285,7 @@ public class SpinActivity extends AppCompatActivity {
                             if (snapshot.exists()) {
                                 Spin spin = snapshot.getValue(Spin.class);
 
-                                if (System.currentTimeMillis() >= spin.getNormalSpinTime() + 60 * 60 * 1000) {
+                                if (getNow() >= spin.getNormalSpinTime() + 60 * 60 * 1000) {
                                     animation();
                                 }
                             }else {
@@ -249,28 +308,28 @@ public class SpinActivity extends AppCompatActivity {
         String text = "";
 
         if (degrees >= (number * 0) && degrees < (number * 1)){
-            text="25";
+            text="2";
         }
         if (degrees >= (number * 1) && degrees < (number * 2)){
-            text="20";
+            text="1";
         }
         if (degrees >= (number * 2) && degrees < (number * 3)){
-            text="15";
+            text="2";
         }
         if (degrees >= (number * 3) && degrees < (number * 4)){
-            text="10";
+            text="1";
         }
         if (degrees >= (number * 4) && degrees < (number * 5)){
-            text="25";
+            text="3";
         }
         if (degrees >= (number * 5) && degrees < (number * 6)){
-            text="20";
+            text="1";
         }
         if (degrees >= (number * 6) && degrees < (number * 7)){
-            text="15";
+            text="2";
         }
         if (degrees >= (number * 7) && degrees < (number * 8)){
-            text="10";
+            text="3";
         }
 
 
@@ -289,32 +348,16 @@ public class SpinActivity extends AppCompatActivity {
         }catch (NumberFormatException e){
             e.printStackTrace();
         }
-        if (result%2==0){
-            map.put("diamond",point + result);
-        }else {
-            map.put("diamond",point-result);
-        }
+        map.put("diamond",point + result);
+
         FirebaseDatabase.getInstance()
-                .getReference().child("Users").child(firebaseUser.getUid()).updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (result%2==0){
-                            Toast.makeText(SpinActivity.this, result+" Diamonds Added.", Toast.LENGTH_SHORT).show();
+                .getReference().child("Users").child(firebaseUser.getUid()).updateChildren(map).addOnCompleteListener(task -> {
+                    StyleableToast.makeText(SpinActivity.this, result+ " " +getString(R.string.addeddia), R.style.customToast).show();
 
-                        }else {
-                            Toast.makeText(SpinActivity.this, result+" Points Lost.", Toast.LENGTH_SHORT).show();
 
-                        }
-                        updateTime();
+                    updateTime();
 
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(SpinActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
-
-                    }
-                });
+                }).addOnFailureListener(e -> Toast.makeText(SpinActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show());
 
 
     }

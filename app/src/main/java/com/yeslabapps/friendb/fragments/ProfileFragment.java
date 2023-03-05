@@ -21,6 +21,7 @@ import com.appodeal.ads.RewardedVideoCallbacks;
 import com.yeslabapps.friendb.R;
 import com.yeslabapps.friendb.activities.EditProfileActivity;
 import com.yeslabapps.friendb.activities.PaymentHistoryActivity;
+import com.yeslabapps.friendb.activities.ReferralUsersActivity;
 import com.yeslabapps.friendb.activities.SettingsActivity;
 import com.yeslabapps.friendb.activities.WatchAdsActivity;
 import com.yeslabapps.friendb.adapter.MyMenuAdapter;
@@ -241,6 +242,8 @@ public class ProfileFragment extends Fragment implements OnClick {
         menuArrayList.add(new MyMenu(getString(R.string.convert),R.drawable.time_to_interactive_svgrepo_com));
         menuArrayList.add(new MyMenu(getString(R.string.history),R.drawable.scrum_svgrepo_com));
         menuArrayList.add(new MyMenu(getString(R.string.settings),R.drawable.css_variables_svgrepo_com));
+        menuArrayList.add(new MyMenu(getString(R.string.myreferrals),R.drawable.community_share_svgrepo_com));
+
 
     }
 
@@ -297,7 +300,7 @@ public class ProfileFragment extends Fragment implements OnClick {
                 if (Appodeal.isLoaded(Appodeal.REWARDED_VIDEO) ){
                     Appodeal.show((Activity) getContext(),Appodeal.REWARDED_VIDEO);
                 }else {
-                    StyleableToast.makeText(getContext(),"Please try again!",R.style.customToast).show();
+                    StyleableToast.makeText(getContext(),getString(R.string.try_again),R.style.customToast).show();
                 }
                 break;
 
@@ -311,6 +314,10 @@ public class ProfileFragment extends Fragment implements OnClick {
                 break;
             case 3:
                 startActivity(new Intent(getContext(), SettingsActivity.class));
+
+                break;
+            case 4:
+                startActivity(new Intent(getContext(), ReferralUsersActivity.class));
 
                 break;
         }

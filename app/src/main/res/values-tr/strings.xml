@@ -45,6 +45,8 @@
     <string name="invite_your_friends_and_get_50_diamonds_for_each">Arkadaşlarını davet et ve her bir kişi için 50 elmas kazan!</string>
     <string name="minimum">En az 250 elmas gerekli.</string>
     <string name="save">Kaydet</string>
+    <string name="myreferrals">Davet Edilenler</string>
+    <string name="addeddia">Elmas Eklendi</string>
 
 
 </resources>
