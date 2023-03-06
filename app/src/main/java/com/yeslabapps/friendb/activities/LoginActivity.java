@@ -106,16 +106,24 @@ public class LoginActivity extends AppCompatActivity {
 
         binding.btnRegister.setOnClickListener(view -> {
 
-            firebaseAuth.createUserWithEmailAndPassword(binding.emailRegister.getText().toString().trim(),binding.passwordRegister.getText().toString().trim()).
-                    addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()){
-                        register();
+            if (binding.emailRegister.getText().toString().trim().length()>0 && binding.usernameRegister.getText().toString().trim().length()>0&&
+                    binding.passwordRegister.getText().toString().trim().length()>0) {
 
-                    }
-                }
-            });
+
+                firebaseAuth.createUserWithEmailAndPassword(binding.emailRegister.getText().toString().trim(),binding.passwordRegister.getText().toString().trim()).
+                        addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()){
+                                    register();
+
+                                }
+                            }
+                        });
+
+            }
+
+
 
 
         });
@@ -138,30 +146,21 @@ public class LoginActivity extends AppCompatActivity {
             EditText editText = dialog.findViewById(R.id.forgotPasswordEt);
             Button button = dialog.findViewById(R.id.sendPasswordLink);
 
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String mail = editText.getText().toString().trim();
-                    if (mail.length() > 1) {
-                        firebaseAuth.sendPasswordResetEmail(mail).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                dialog.dismiss();
-                                CookieBar.build(LoginActivity.this)
-                                        .setTitle(R.string.forgotinfo)
-                                        .setCookiePosition(CookieBar.TOP)  // Cookie will be displayed at the bottom
-                                        .show();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                dialog.dismiss();
-                                Toast.makeText(LoginActivity.this, "Bir hata oldu. Yeniden deneyin.", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-
+            button.setOnClickListener(view1 -> {
+                String mail = editText.getText().toString().trim();
+                if (mail.length() > 1) {
+                    firebaseAuth.sendPasswordResetEmail(mail).addOnSuccessListener(unused -> {
+                        dialog.dismiss();
+                        CookieBar.build(LoginActivity.this)
+                                .setTitle(R.string.forgotinfo)
+                                .setCookiePosition(CookieBar.TOP)  // Cookie will be displayed at the bottom
+                                .show();
+                    }).addOnFailureListener(e -> {
+                        dialog.dismiss();
+                        Toast.makeText(LoginActivity.this, getString(R.string.try_again), Toast.LENGTH_SHORT).show();
+                    });
                 }
+
             });
 
         });
@@ -178,13 +177,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private void register(){
 
-        if (binding.emailRegister.getText().toString().trim().length()>0 && binding.usernameRegister.getText().toString().trim().length()>0&&
-        binding.passwordRegister.getText().toString().trim().length()>0){
-            String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-            viewModel.createUser(deviceId,LoginActivity.this,binding.usernameRegister.getText().toString().trim(),
-                    binding.emailRegister.getText().toString().trim(),binding.passwordRegister.getText().toString().trim(), firebaseAuth);
 
-        }
+        String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        viewModel.createUser(deviceId,LoginActivity.this,binding.usernameRegister.getText().toString().trim(),
+                binding.emailRegister.getText().toString().trim(),binding.passwordRegister.getText().toString().trim(), firebaseAuth);
+
 
     }
 

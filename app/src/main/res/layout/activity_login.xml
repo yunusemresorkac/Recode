@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/_7sdp"
             android:layout_marginStart="@dimen/_5sdp"
-            android:text="Login"
+            android:text="@string/login"
             android:background="@drawable/rect_border"
             android:backgroundTint="#FFEB3B"
             android:fontFamily="@font/alata"
@@ -41,7 +41,7 @@
             android:layout_marginStart="@dimen/_30sdp"
             android:background="@drawable/rect_border"
             android:padding="@dimen/_7sdp"
-            android:text="Register"
+            android:text="@string/register"
             android:backgroundTint="#FFEB3B"
             android:fontFamily="@font/alata"
 
@@ -119,10 +119,10 @@
 
                 <Button
                     android:id="@+id/btnLogin"
-                    android:layout_width="@dimen/_200sdp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_margin="@dimen/_10sdp"
                     android:background="@drawable/button_background"
                     android:backgroundTint="#FFC107"
 
@@ -191,7 +191,7 @@
                     android:drawableStart="@drawable/ic_baseline_email_24"
                     android:drawablePadding="@dimen/_5sdp"
                     android:drawableTint="@color/white"
-                    android:hint="Email"
+                    android:hint="@string/email"
                     android:fontFamily="@font/alata"
                     android:background="@drawable/rect_border"
                     android:inputType="textEmailAddress"
@@ -215,7 +215,7 @@
                     android:drawableTint="@color/white"
                     android:backgroundTint="#FFEB3B"
 
-                    android:hint="Password"
+                    android:hint="@string/password"
                     android:fontFamily="@font/alata"
                     android:layout_marginTop="@dimen/_8sdp"
                     android:background="@drawable/rect_border"
@@ -235,7 +235,7 @@
                     android:drawableStart="@drawable/ic_baseline_person_24"
                     android:drawablePadding="@dimen/_5sdp"
                     android:drawableTint="@color/white"
-                    android:hint="Username"
+                    android:hint="@string/username"
                     android:fontFamily="@font/alata"
                     android:backgroundTint="#FFEB3B"
 
@@ -248,13 +248,13 @@
 
                 <Button
                     android:id="@+id/btnRegister"
-                    android:layout_width="150dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_margin="@dimen/_10sdp"
                     android:layout_gravity="center"
                     android:background="@drawable/button_background"
                     android:backgroundTint="#FF9800"
-                    android:text="Register"
+                    android:text="@string/register"
                     android:fontFamily="@font/alata"
                     android:textAllCaps="false"
                     android:textColor="#ffffff"

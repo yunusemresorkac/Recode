@@ -149,7 +149,8 @@ public class EditProfileActivity extends AppCompatActivity {
                             if (user != null) {
                                 binding.username.setText(user.getUsername());
                                 binding.usermail.setText(user.getEmail());
-                                binding.registerdate.setText(new StringBuilder().append("Registered On ").append(convertTime(user.getRegisterDate())).toString());
+                                binding.registerdate.setText(new StringBuilder().append(getString(R.string.registered_on)).append(" ")
+                                        .append(convertTime(user.getRegisterDate())).toString());
 
                             }
 

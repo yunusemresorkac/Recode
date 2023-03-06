@@ -98,6 +98,7 @@ public class SpinActivity extends AppCompatActivity {
             }else {
                 StyleableToast.makeText(this,getString(R.string.try_again),R.style.customToast).show();
             }
+
         });
 
     }
@@ -148,7 +149,7 @@ public class SpinActivity extends AppCompatActivity {
             }
         });
 
-        return calendar.getTimeInMillis()/1000;
+        return calendar.getTimeInMillis();
 
     }
 
@@ -256,7 +257,7 @@ public class SpinActivity extends AppCompatActivity {
                                 }else {
                                     binding.spinBtn.setEnabled(false);
                                     long nextTime = spin.getNormalSpinTime() +  60 * 60 * 1000;
-                                    binding.spinBtn.setText(new StringBuilder().append("Come on ").append(convertTime(nextTime)).toString());
+                                    binding.spinBtn.setText(new StringBuilder().append(getString(R.string.comeon)).append(" ").append(convertTime(nextTime)).toString());
 
                                 }
                                 pd.dismiss();

@@ -48,6 +48,8 @@
     <string name="myreferrals">Davet Edilenler</string>
     <string name="addeddia">Elmas Eklendi</string>
     <string name="forgotinfo">Gelen kutusunu ve spam kutusunu kontrol edin.</string>
+    <string name="register">Hesap Oluştur</string>
+    <string name="comeon">Sıradaki Çark</string>
 
 
 </resources>
