@@ -15,9 +15,9 @@ import java.util.List;
 
 public class InvitersRepo {
 
-    private MutableLiveData<String> errorMessage;
-    private MutableLiveData<List<Referral>> mutableLiveData;
-    private List<Referral> referralList;
+    private final MutableLiveData<String> errorMessage;
+    private final MutableLiveData<List<Referral>> mutableLiveData;
+    private final List<Referral> referralList;
 
 
     public InvitersRepo(){

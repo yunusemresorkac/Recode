@@ -5,12 +5,20 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.yeslabapps.friendb.R;
@@ -37,6 +45,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import org.aviran.cookiebar2.CookieBar;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -114,6 +124,47 @@ public class LoginActivity extends AppCompatActivity {
             login();
         });
 
+
+        binding.forgotPassword.setOnClickListener(view -> {
+            final Dialog dialog = new Dialog(LoginActivity.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.bottom_forgot_password);
+
+            dialog.show();
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.GRAY));
+            dialog.getWindow().setGravity(Gravity.BOTTOM);
+
+            EditText editText = dialog.findViewById(R.id.forgotPasswordEt);
+            Button button = dialog.findViewById(R.id.sendPasswordLink);
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String mail = editText.getText().toString().trim();
+                    if (mail.length() > 1) {
+                        firebaseAuth.sendPasswordResetEmail(mail).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                dialog.dismiss();
+                                CookieBar.build(LoginActivity.this)
+                                        .setTitle(R.string.forgotinfo)
+                                        .setCookiePosition(CookieBar.TOP)  // Cookie will be displayed at the bottom
+                                        .show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                dialog.dismiss();
+                                Toast.makeText(LoginActivity.this, "Bir hata oldu. Yeniden deneyin.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                }
+            });
+
+        });
     }
 
     private void login(){

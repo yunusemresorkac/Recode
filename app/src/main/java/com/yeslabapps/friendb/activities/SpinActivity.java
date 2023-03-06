@@ -276,7 +276,7 @@ public class SpinActivity extends AppCompatActivity {
     }
 
     private void spin(){
-        if (mButtonRotation ) {
+        if (mButtonRotation) {
             FirebaseDatabase.getInstance()
                     .getReference().child("Spin").child(firebaseUser.getUid())
                     .addValueEventListener(new ValueEventListener() {
@@ -285,7 +285,7 @@ public class SpinActivity extends AppCompatActivity {
                             if (snapshot.exists()) {
                                 Spin spin = snapshot.getValue(Spin.class);
 
-                                if (getNow() >= spin.getNormalSpinTime() + 60 * 60 * 1000) {
+                                if (spin != null && getNow() >= spin.getNormalSpinTime() + 60 * 60 * 1000) {
                                     animation();
                                 }
                             }else {
