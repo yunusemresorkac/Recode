@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
@@ -99,6 +100,7 @@ public class SpinActivity extends AppCompatActivity {
                 StyleableToast.makeText(this,getString(R.string.try_again),R.style.customToast).show();
             }
 
+
         });
 
     }
@@ -160,11 +162,13 @@ public class SpinActivity extends AppCompatActivity {
         Appodeal.setRewardedVideoCallbacks(new RewardedVideoCallbacks() {
             @Override
             public void onRewardedVideoLoaded(boolean b) {
+                pd.dismiss();
 
             }
 
             @Override
             public void onRewardedVideoFailedToLoad() {
+                pd.dismiss();
 
             }
 
@@ -260,11 +264,9 @@ public class SpinActivity extends AppCompatActivity {
                                     binding.spinBtn.setText(new StringBuilder().append(getString(R.string.comeon)).append(" ").append(convertTime(nextTime)).toString());
 
                                 }
-                                pd.dismiss();
 
                             }
                         }else {
-                            pd.dismiss();
                         }
 
                     }
@@ -349,11 +351,23 @@ public class SpinActivity extends AppCompatActivity {
         }catch (NumberFormatException e){
             e.printStackTrace();
         }
-        map.put("diamond",point + result);
+
+        SharedPreferences preferences= getSharedPreferences("PREFS",0);
+        int accountType=preferences.getInt("accountType",0);
+        if (accountType==1){
+            map.put("diamond",point + (result * 2) );
+        }else {
+            map.put("diamond",point + result);
+        }
 
         FirebaseDatabase.getInstance()
                 .getReference().child("Users").child(firebaseUser.getUid()).updateChildren(map).addOnCompleteListener(task -> {
-                    StyleableToast.makeText(SpinActivity.this, result+ " " +getString(R.string.addeddia), R.style.customToast).show();
+                    if (accountType==1){
+                        StyleableToast.makeText(SpinActivity.this, (result * 2 ) + " " +getString(R.string.addeddia), R.style.customToast).show();
+                    }else {
+                        StyleableToast.makeText(SpinActivity.this, result + " " +getString(R.string.addeddia), R.style.customToast).show();
+
+                    }
 
 
                     updateTime();

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.RemoteException;
@@ -93,10 +94,37 @@ public class MainActivity extends AppCompatActivity implements InstallReferrerSt
         });
 
         updateLastSeen();
-
+        getUserInfo();
 
 
     }
+
+
+    private void getUserInfo(){
+        FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    User user = snapshot.getValue(User.class);
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("PREFS",0);
+                    SharedPreferences.Editor editor=sharedPreferences.edit();
+                    if (user != null) {
+                        editor.putInt("accountType",user.getAccountType());
+                    }
+                    editor.apply();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
 
     private void sendPointToInviter(String userId){
         FirebaseDatabase.getInstance().getReference().child("Users").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {

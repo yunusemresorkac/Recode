@@ -115,12 +115,9 @@ public class BuyActivity extends AppCompatActivity {
                             HashMap<String,Object> hashMap = new HashMap<>();
                             if (user != null) {
                                 hashMap.put("gold", user.getGold() - price );
-                                FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.getUid()).updateChildren(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        StyleableToast.makeText(BuyActivity.this,"Purchase Successful",R.style.customToast).show();
-                                        finish();
-                                    }
+                                FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.getUid()).updateChildren(hashMap).addOnSuccessListener(unused -> {
+                                    StyleableToast.makeText(BuyActivity.this,"Purchase Successful",R.style.customToast).show();
+                                    finish();
                                 });
                             }
                         }
@@ -154,12 +151,7 @@ public class BuyActivity extends AppCompatActivity {
         hashMap.put("orderProductId",productId);
 
         if (orderId != null) {
-            reference.child("Orders").child(orderId).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void unused) {
-                    lostGolds();
-                }
-            });
+            reference.child("Orders").child(orderId).setValue(hashMap).addOnSuccessListener(unused -> lostGolds());
         }
 
     }
@@ -182,7 +174,7 @@ public class BuyActivity extends AppCompatActivity {
                         createOrder();
                     }else {
                         CookieBar.build(BuyActivity.this)
-                                .setTitle("Insufficient Balance!")
+                                .setTitle(getString(R.string.nobalance))
                                 .setCookiePosition(CookieBar.TOP)  // Cookie will be displayed at the bottom
                                 .show();
                     }

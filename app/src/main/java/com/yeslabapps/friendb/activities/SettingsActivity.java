@@ -44,12 +44,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClick {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        binding.toolbar.setNavigationOnClickListener(view -> finish());
 
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();

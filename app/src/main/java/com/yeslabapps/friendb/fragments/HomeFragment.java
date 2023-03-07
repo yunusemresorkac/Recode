@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.yeslabapps.friendb.R;
+import com.yeslabapps.friendb.activities.LuckySpinActivity;
 import com.yeslabapps.friendb.activities.PaymentHistoryActivity;
 import com.yeslabapps.friendb.activities.SpinActivity;
 import com.yeslabapps.friendb.activities.WatchAdsActivity;
@@ -67,6 +68,9 @@ public class HomeFragment extends Fragment implements OnClick {
         loadAds();
         initRecycler();
 
+
+        binding.goPremium.setOnClickListener(view -> startActivity(new Intent(getContext(), LuckySpinActivity.class)));
+
         return binding.getRoot();
     }
 
@@ -76,11 +80,13 @@ public class HomeFragment extends Fragment implements OnClick {
         Appodeal.setRewardedVideoCallbacks(new RewardedVideoCallbacks() {
             @Override
             public void onRewardedVideoLoaded(boolean b) {
+                pd.dismiss();
 
             }
 
             @Override
             public void onRewardedVideoFailedToLoad() {
+                pd.dismiss();
 
             }
 
@@ -176,14 +182,12 @@ public class HomeFragment extends Fragment implements OnClick {
                             }catch (NumberFormatException e){
                                 e.printStackTrace();
                             }
-                            pd.dismiss();
 
                         }
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        pd.dismiss();
                     }
                 });
 

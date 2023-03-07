@@ -75,7 +75,7 @@ public class PaymentHistoryActivity extends AppCompatActivity {
 
 
         viewModel.getPayments(firebaseUser.getUid());
-        viewModel.getAllPayments().observe((LifecycleOwner) this, posts -> {
+        viewModel.getAllPayments().observe(this, posts -> {
             pd.dismiss();
             orderArrayList.addAll(posts);
             paymentAdapter.notifyDataSetChanged();

@@ -1,26 +1,42 @@
 package com.yeslabapps.friendb.activities;
 
+import static com.android.billingclient.api.BillingClient.BillingResponseCode.OK;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.app.ProgressDialog;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.RotateAnimation;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.android.billingclient.api.BillingClient;
+import com.android.billingclient.api.BillingClientStateListener;
+import com.android.billingclient.api.BillingFlowParams;
+import com.android.billingclient.api.BillingResult;
+import com.android.billingclient.api.ConsumeParams;
+import com.android.billingclient.api.ConsumeResponseListener;
+import com.android.billingclient.api.ProductDetails;
+import com.android.billingclient.api.Purchase;
+import com.android.billingclient.api.PurchasesUpdatedListener;
+import com.android.billingclient.api.QueryProductDetailsParams;
+import com.android.billingclient.api.SkuDetails;
+import com.android.billingclient.api.SkuDetailsParams;
+import com.android.billingclient.api.SkuDetailsResponseListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.common.collect.ImmutableList;
+import com.google.firebase.database.DatabaseReference;
 import com.yeslabapps.friendb.R;
 import com.yeslabapps.friendb.databinding.ActivityLuckySpinBinding;
-import com.yeslabapps.friendb.model.Spin;
+import com.yeslabapps.friendb.model.User;
 import com.yeslabapps.friendb.util.NetworkChangeListener;
-import com.yeslabapps.friendb.viewmodel.SpinViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -28,29 +44,24 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
+import java.util.List;
+
+import io.github.muddz.styleabletoast.StyleableToast;
 
 public class LuckySpinActivity extends AppCompatActivity {
 
     private ActivityLuckySpinBinding binding;
     private FirebaseUser firebaseUser;
     private ProgressDialog pd;
+    private BillingClient billingClient;
+    private ProductDetails productDetails;
+    private Purchase purchase;
+    private String paketId = "get_premium";
+    static final String TAG_IAP ="InAppPurchaseTag";
 
-    private SpinViewModel viewModel;
-    private boolean mButtonRotation = true;
-    private static final float number = 22.5f;
-    private int mDegrees = 0, mOldDegrees = 0;
-
-    private Random random;
-
-    private int point;
-
-    private NetworkChangeListener networkChangeListener = new NetworkChangeListener();
-
+    private final NetworkChangeListener networkChangeListener = new NetworkChangeListener();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -63,12 +74,7 @@ public class LuckySpinActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        binding.toolbar.setNavigationOnClickListener(view -> finish());
 
 
         pd = new ProgressDialog(this, R.style.CustomDialog);
@@ -76,292 +82,247 @@ public class LuckySpinActivity extends AppCompatActivity {
         pd.show();
 
 
-        random = new Random();
-        viewModel = new ViewModelProvider(this).get(SpinViewModel.class);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        getUserPoint();
 
 
-        setButtonForSpin();
-        binding.spinBtn.setOnClickListener(view -> {
-            spin();
 
+        billingSetup();
+
+        binding.makePurchase.setOnClickListener(view -> {
+            makePurchase();
         });
+
+
 
     }
 
 
 
-//    private long getNow(){
-//        AtomicLong timeL = new AtomicLong();
-//        OkHttpClient client = new OkHttpClient();
-//        String url = "https://api.api-ninjas.com/v1/worldtime?city=London";
-//        Request request = new Request.Builder()
-//                .url(url)
-//                .header("X-Api-Host", "world-time-by-api-ninjas.p.rapidapi.com")
-//                .header("X-Api-Key", "5y/pfzoaQ2JFgLzVy78png==ZBA9HRcfCexhLs8w")
-//                .build();
-//        client.newCall(request).enqueue(new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                e.printStackTrace();
-//                System.out.println("hata " + e.toString());
-//                finish();
-//            }
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//
-//                if (response.isSuccessful()) {
-//
-//                    runOnUiThread(() -> {
-//                        long now;
-//
-//                        String resStr = null;
-//                        try {
-//                            resStr = response.body().string();
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                        try {
-//                            JSONObject json = new JSONObject(resStr);
-//                            String time = json.getString("datetime");
-//
-//                            System.out.println("zaman "  + time);
-//
-//                            now = convertToMil(time);
-//                            timeL.set(convertToMil(time));
-//                            pd.dismiss();
-//                            System.out.println("saniye " + now);
-//                            System.out.println("mysaniye " +System.currentTimeMillis() );
-//
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                            System.out.println("hata " + e.toString());
-//
-//                        }
-//
-//                    });
-//                }
-//            }
-//        });
-//        return timeL.get();
-//    }
-    private Long convertToMil(String date)
-    {
+    private void billingSetup() {
 
-        long timeInMilliseconds = 0;
+        billingClient = BillingClient.newBuilder(LuckySpinActivity.this)
+                .setListener(purchasesUpdatedListener)
+                .enablePendingPurchases()
+                .build();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yy-mm-dd hh:mm:ss");
-        try {
 
-            Date mDate = sdf.parse(date);
-            timeInMilliseconds = mDate.getTime();
+        billingClient.startConnection(new BillingClientStateListener() {
 
-        } catch (ParseException  e) {
-            e.printStackTrace();
+            @Override
+            public void onBillingSetupFinished(
+                    @NonNull BillingResult billingResult) {
+
+                if (billingResult.getResponseCode() ==
+                        OK) {
+                    Log.i(TAG_IAP, "OnBillingSetupFinish connected");
+
+
+                    queryProduct();
+
+                } else {
+                    Log.i(TAG_IAP, "OnBillingSetupFinish failed");
+                }
+            }
+
+            @Override
+            public void onBillingServiceDisconnected() {
+                Log.i(TAG_IAP, "OnBillingSetupFinish connection lost");
+            }
+        });
+    }
+
+    private void queryProduct() {
+
+        QueryProductDetailsParams queryProductDetailsParams =
+                QueryProductDetailsParams.newBuilder()
+                        .setProductList(
+                                ImmutableList.of(
+                                        QueryProductDetailsParams.Product.newBuilder()
+                                                .setProductId(paketId)
+                                                .setProductType(
+                                                        BillingClient.ProductType.INAPP)
+                                                .build()))
+                        .build();
+
+        billingClient.queryProductDetailsAsync(
+                queryProductDetailsParams,
+                (billingResult, productDetailsList) -> {
+
+                    if (!productDetailsList.isEmpty()) {
+                        productDetails = productDetailsList.get(0);
+                        runOnUiThread(() -> {
+
+                            binding.makePurchase.setEnabled(true);
+                            List<String> skuList = new ArrayList<>();
+                            skuList.add(paketId);
+                            SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
+                            params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP);
+                            billingClient.querySkuDetailsAsync(params.build(), (billingResult1, list) -> {
+                                if (billingResult1.getResponseCode() == OK && list != null ) {
+                                    for (SkuDetails skuDetails : list) {
+                                        String price = skuDetails.getPrice();
+
+                                        binding.makePurchase.setText(getString(R.string.buy) + " - " +price);
+                                        //binding.paketBilgi.setText(new StringBuilder().append("Satın Al ").append(productDetails.getName()).append(" ").append(price).toString());
+
+                                        //System.out.println("fiyat "+price);
+                                        //Toast.makeText(RemoveAdsActivity.this, "fiyat "+ price, Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                            });
+                            pd.dismiss();
+                        });
+                    } else {
+                        Log.i(TAG_IAP, "onProductDetailsResponse: No products");
+                        pd.dismiss();
+                        finish();
+                    }
+                }
+        );
+    }
+
+    private void makePurchase() {
+
+        BillingFlowParams billingFlowParams =
+                BillingFlowParams.newBuilder()
+                        .setProductDetailsParamsList(
+                                ImmutableList.of(
+                                        BillingFlowParams.ProductDetailsParams.newBuilder()
+                                                .setProductDetails(productDetails)
+                                                .build()
+                                )
+                        )
+                        .build();
+
+        billingClient.launchBillingFlow(this, billingFlowParams);
+    }
+
+    private final PurchasesUpdatedListener purchasesUpdatedListener = (billingResult, purchases) -> {
+
+        if (billingResult.getResponseCode() ==
+                OK
+                && purchases != null) {
+            for (Purchase purchase : purchases) {
+                completePurchase(purchase);
+            }
+        } else if (billingResult.getResponseCode() ==
+                BillingClient.BillingResponseCode.USER_CANCELED) {
+            Log.i(TAG_IAP, "onPurchasesUpdated: Purchase Canceled");
+            //StyleableToast.makeText(CompleteBuyActivity.this, "Bir hata oldu. Yeniden deneyin.", R.style.customToast).show();
+
+        } else {
+            Log.i(TAG_IAP, "onPurchasesUpdated: Error");
+            StyleableToast.makeText(LuckySpinActivity.this, getString(R.string.try_again), R.style.customToast).show();
+
         }
+    };
 
-        return  timeInMilliseconds;
-    }
+    private void completePurchase(Purchase item) {
 
+        purchase = item;
+        if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED)
+            runOnUiThread(() -> {
+                binding.makePurchase.setText(R.string.succes);
+                FirebaseDatabase.getInstance()
+                        .getReference().child("Users").child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (snapshot.exists()) {
+                                    User user = snapshot.getValue(User.class);
 
+                                    if (user!=null){
+                                        HashMap<String, Object> map = new HashMap<>();
+                                        map.put("accountType",1);
+                                        FirebaseDatabase.getInstance()
+                                                .getReference().child("Users").child(firebaseUser.getUid()).updateChildren(map)
+                                                .addOnCompleteListener(task -> {
+                                                    if (task.isSuccessful()){
+                                                        SharedPreferences sharedPreferences = getSharedPreferences("PREFS",0);
+                                                        SharedPreferences.Editor editor=sharedPreferences.edit();
+                                                        editor.putInt("accountType",1);
+                                                        editor.apply();
+                                                        consumePurchase();
 
-    private void getUserPoint() {
-        viewModel.getUserPoint(firebaseUser, binding.userPoint);
-        pd.dismiss();
-    }
+                                                        addBuyers();
 
-    private void animation() {
-        mOldDegrees = mDegrees % 360;
-        mDegrees = random.nextInt(3600) + 720;
-        RotateAnimation rotateAnimation = new RotateAnimation(mOldDegrees, mDegrees,
-                RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-        rotateAnimation.setDuration(9000);
-        rotateAnimation.setFillAfter(true);
-        rotateAnimation.setInterpolator(new DecelerateInterpolator());
-        rotateAnimation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                mButtonRotation = false;
-                binding.spinBtn.setEnabled(false);
-            }
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(LuckySpinActivity.this, getString(R.string.try_again), Toast.LENGTH_SHORT).show();
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                mButtonRotation = true;
-                binding.spinBtn.setEnabled(true);
-                updatePoints();
-
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        binding.luckyWheel.startAnimation(rotateAnimation);
-    }
-
-    private String convertTime(long time) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM k:mm");
-        String dateString = formatter.format(new Date(Long.parseLong(String.valueOf(time))));
-        return dateString;
-    }
-
-    private void setButtonForSpin() {
-        FirebaseDatabase.getInstance("https://bicer-807c5-default-rtdb.europe-west1.firebasedatabase.app/")
-                .getReference().child("Spin").child(firebaseUser.getUid())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()) {
-                            Spin spin = snapshot.getValue(Spin.class);
-
-                            if (spin != null) {
-                                if (System.currentTimeMillis() >= spin.getLuckySpinTime() + 2 * 60 * 1000) {
-                                    binding.spinBtn.setEnabled(true);
-                                    binding.spinBtn.setText("Spın");
+                                                    }
+                                                });
+                                    }
 
 
-                                } else {
-                                    binding.spinBtn.setEnabled(false);
-                                    long nextTime = spin.getLuckySpinTime() + 2 * 60 * 1000;
-                                    binding.spinBtn.setText(new StringBuilder().append("Come on ").append(convertTime(nextTime)).toString());
+
+
+                                    //StyleableToast.makeText(CompleteBuyActivity.this, "Satın alım başarılı. Elmaslar bakiyene eklendi.", R.style.customToast).show();
+
+
+
 
                                 }
 
                             }
-                        }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
 
-                    }
-                });
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+            });
+
+
     }
 
+    private void consumePurchase() {
+        ConsumeParams consumeParams =
+                ConsumeParams.newBuilder()
+                        .setPurchaseToken(purchase.getPurchaseToken())
+                        .build();
 
-    private void spin() {
-        if (mButtonRotation && binding.spinBtn.getText().toString().equals("Spın")) {
-            FirebaseDatabase.getInstance("https://bicer-807c5-default-rtdb.europe-west1.firebasedatabase.app/")
-                    .getReference().child("Spin").child(firebaseUser.getUid())
-                    .addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.exists()) {
-                                Spin spin = snapshot.getValue(Spin.class);
-
-                                if (System.currentTimeMillis() >= spin.getLuckySpinTime() + 36 * 60 * 60 * 1000) {
-                                    animation();
-                                }
-                            } else {
-                                animation();
-                            }
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
+        ConsumeResponseListener listener = new ConsumeResponseListener() {
+            @Override
+            public void onConsumeResponse(BillingResult billingResult,
+                                          @NonNull String purchaseToken) {
+                if (billingResult.getResponseCode() ==
+                        OK) {
+                    runOnUiThread(() -> {
+                        //binding.premiumInfo.setText("Purchase Consumed");
                     });
+                }
+            }
+        };
+        billingClient.consumeAsync(consumeParams, listener);
+    }
 
+    private void addBuyers(){
+
+        HashMap<String,Object> hashMap = new HashMap<>();
+
+        DatabaseReference reference = FirebaseDatabase.getInstance()
+                .getReference().child("Buys");
+
+        String buyId = reference.push().getKey();
+
+        hashMap.put("buyerId",firebaseUser.getUid());
+        hashMap.put("product","Premium");
+        hashMap.put("buyId",buyId);
+        hashMap.put("time",""+System.currentTimeMillis());
+
+        if (buyId != null) {
+            reference.child(buyId).setValue(hashMap);
         }
 
 
     }
 
-    private String currentNumber(int degrees) {
-        String text = "";
-
-        if (degrees >= (number * 0) && degrees < (number * 1)) {
-            text = "200";
-        }
-        if (degrees >= (number * 1) && degrees < (number * 2)) {
-            text = "100";
-        }
-        if (degrees >= (number * 2) && degrees < (number * 3)) {
-            text = "50";
-        }
-        if (degrees >= (number * 3) && degrees < (number * 4)) {
-            text = "20";
-        }
-        if (degrees >= (number * 4) && degrees < (number * 5)) {
-            text = "50";
-        }
-        if (degrees >= (number * 5) && degrees < (number * 6)) {
-            text = "100";
-        }
-        if (degrees >= (number * 6) && degrees < (number * 7)) {
-            text = "20";
-        }
-        if (degrees >= (number * 7) && degrees < (number * 8)) {
-            text = "100";
-        }
-        if (degrees >= (number * 8) && degrees < (number * 9)) {
-            text = "200";
-        }
-        if (degrees >= (number * 9) && degrees < (number * 10)) {
-            text = "50";
-        }
-        if (degrees >= (number * 10) && degrees < (number * 11)) {
-            text = "100";
-        }
-        if (degrees >= (number * 11) && degrees < (number * 12)) {
-            text = "20";
-        }
-        if (degrees >= (number * 12) && degrees < (number * 13)) {
-            text = "50";
-        }
-        if (degrees >= (number * 13) && degrees < (number * 14)) {
-            text = "100";
-        }
-        if (degrees >= (number * 14) && degrees < (number * 15)) {
-            text = "50";
-        }
-        if (degrees >= (number * 15) && degrees < (number * 16)) {
-            text = "20";
-        }
-
-        return text;
-
-
-    }
-
-
-    private void updatePoints() {
-        HashMap<String, Object> map = new HashMap<>();
-        int result = Integer.parseInt(currentNumber(360 - (mDegrees % 360)));
-        try {
-            point = Integer.parseInt(binding.userPoint.getText().toString());
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
-        map.put("point", point + result);
-
-        FirebaseDatabase.getInstance("https://bicer-807c5-default-rtdb.europe-west1.firebasedatabase.app/")
-                .getReference().child("Users").child(firebaseUser.getUid()).updateChildren(map).addOnCompleteListener(task -> {
-                    Toast.makeText(LuckySpinActivity.this, result + " Points Added.", Toast.LENGTH_SHORT).show();
-                    updateTime();
-
-                }).addOnFailureListener(e -> Toast.makeText(LuckySpinActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show());
-
-
-    }
-
-    private void updateTime() {
-
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("luckySpinTime", System.currentTimeMillis());
-        map.put("userId", firebaseUser.getUid());
-        FirebaseDatabase.getInstance("https://bicer-807c5-default-rtdb.europe-west1.firebasedatabase.app/").
-                getReference().child("Spin").child(firebaseUser.getUid())
-                .updateChildren(map);
-    }
     @Override
     protected void onStart() {
         IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);

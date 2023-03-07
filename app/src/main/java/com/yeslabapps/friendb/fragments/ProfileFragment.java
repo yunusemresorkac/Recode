@@ -2,13 +2,18 @@ package com.yeslabapps.friendb.fragments;
 
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -243,6 +248,7 @@ public class ProfileFragment extends Fragment implements OnClick {
         menuArrayList.add(new MyMenu(getString(R.string.history),R.drawable.scrum_svgrepo_com));
         menuArrayList.add(new MyMenu(getString(R.string.settings),R.drawable.css_variables_svgrepo_com));
         menuArrayList.add(new MyMenu(getString(R.string.myreferrals),R.drawable.community_share_svgrepo_com));
+        menuArrayList.add(new MyMenu(getString(R.string.about),R.drawable.info_svgrepo_com));
 
 
     }
@@ -320,9 +326,23 @@ public class ProfileFragment extends Fragment implements OnClick {
                 startActivity(new Intent(getContext(), ReferralUsersActivity.class));
 
                 break;
+
+            case 5:
+                aboutUsDialog();
+                break;
         }
     }
 
+    private void aboutUsDialog(){
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.bottom_summary);
+
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        dialog.show();
+
+    }
 
     private void lostDiamond(){
         FirebaseDatabase.getInstance()

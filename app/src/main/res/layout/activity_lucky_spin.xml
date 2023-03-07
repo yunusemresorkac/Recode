@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_bg"
+    android:background="@drawable/premium_bg"
 
     tools:context=".activities.LuckySpinActivity">
 
@@ -18,77 +18,46 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/spin_amp_earn"
+            android:text="@string/get_premium"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:fontFamily="@font/sugarsnow"/>
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/userPoint"
-            android:text=""
-            android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/_15sdp"
-            android:textColor="@color/white"
-            android:fontFamily="@font/sugarsnow"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/point"
-            android:textColor="@color/white"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:fontFamily="@font/sugarsnow"
-            android:layout_gravity="end"/>
-
-
-
-
     </androidx.appcompat.widget.Toolbar>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
-        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
         android:gravity="center"
-        android:id="@+id/luckylay"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:fontFamily="@font/sugarsnow"
+        android:text="@string/premium_info"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
 
-        <ImageView
-            android:id="@+id/pointer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/arrow_down"
-            android:textColor="@color/white"
-            android:textSize="70sp" />
-
-        <ImageView
-            android:layout_width="@dimen/_450sdp"
-            android:layout_height="@dimen/_300sdp"
-            android:layout_marginTop="@dimen/_3sdp"
-            android:src="@drawable/luckycark"
-            android:id="@+id/luckyWheel"/>
-
-
-    </LinearLayout>
+    <ImageView
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_80sdp"
+        android:layout_above="@id/makePurchase"
+        android:src="@drawable/higher_order_functions_svgrepo_com"
+        android:layout_centerInParent="true"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/spinBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_30sdp"
-        android:layout_marginTop="@dimen/_30sdp"
-        android:layout_marginEnd="@dimen/_30sdp"
-        android:layout_marginBottom="@dimen/_30sdp"
-        android:textSize="20sp"
+        android:layout_margin="@dimen/_20sdp"
+        android:textColor="@color/white"
         android:fontFamily="@font/sugarsnow"
-        android:layout_alignParentBottom="true"
-        android:text="@string/sp_n"
-        android:textColor="@color/white" />
-
+        android:text="@string/buy"
+        android:textSize="20sp"
+        android:id="@+id/makePurchase"
+        android:layout_centerInParent="true"/>
 
 
 </RelativeLayout>

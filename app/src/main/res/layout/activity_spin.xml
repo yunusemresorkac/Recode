@@ -39,6 +39,7 @@
             android:layout_height="wrap_content"
             android:text="@string/diamonds"
             android:textColor="@color/white"
+            android:textSize="16sp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:fontFamily="@font/sugarsnow"
             android:layout_gravity="end"/>
