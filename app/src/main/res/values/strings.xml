@@ -52,12 +52,16 @@
     <string name="addeddia">Diamonds Added</string>
     <string name="forgotinfo">Please check your mail and spam box.</string>
     <string name="register">Register</string>
-    <string name="comeon">Next Spin</string>
+    <string name="comeon">Next Turn</string>
     <string name="about">About App</string>
     <string name="info">You earn diamonds by spinning the wheel, watching ads and inviting your friends. You can buy game codes from the store by converting these diamonds into gold. 250 diamonds equal 1 gold. You get 50 diamonds when you invite a friend, and 3 diamonds when you watch an ad.</string>
     <string name="nobalance">Insufficient Balance!</string>
     <string name="succes">Purchase Successful.</string>
     <string name="get_premium">GET PREMIUM</string>
-    <string name="premium_info">2X Spin Revenue.</string>
+    <string name="premium_info">2X Spin Revenue.\n Access the dice game. \n This is a one-time payment.</string>
+    <string name="dice">Play Dice</string>
+    <string name="play">Play</string>
+    <string name="goladded">Gold added.</string>
+    <string name="upgrade_your_account_to_premium_and_enjoy_the_app_without_ads">To get as many diamonds as the sum of the two dice you roll, you need to upgrade your account.</string>
 
 </resources>

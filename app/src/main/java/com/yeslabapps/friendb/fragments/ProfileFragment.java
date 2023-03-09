@@ -160,7 +160,7 @@ public class ProfileFragment extends Fragment implements OnClick {
                                             }catch (NumberFormatException e){
                                                 e.printStackTrace();
                                             }
-                                            StyleableToast.makeText(getContext(), "Gold added.", R.style.customToast).show();
+                                            StyleableToast.makeText(getContext(), getString(R.string.goladded), R.style.customToast).show();
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override

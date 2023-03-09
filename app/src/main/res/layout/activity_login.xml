@@ -64,7 +64,13 @@
         app:cardCornerRadius="@dimen/_3sdp"
         app:cardElevation="@dimen/_3sdp"
         app:cardUseCompatPadding="true"
-        app:contentPadding="@dimen/_10sdp">
+        >
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/main_bg"/>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -74,7 +80,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_8sdp"
+                android:padding="@dimen/_4sdp"
+                android:layout_margin="@dimen/_8sdp"
                 android:orientation="vertical">
 
 
@@ -168,20 +175,29 @@
         app:cardElevation="@dimen/_3sdp"
         app:cardUseCompatPadding="true"
         android:visibility="gone"
-        app:contentPadding="@dimen/_10sdp">
+
+        >
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/main_bg"/>
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
 
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_8sdp"
+                android:padding="@dimen/_4sdp"
+                android:layout_margin="@dimen/_8sdp"
                 android:orientation="vertical">
+
+
+
 
 
                 <EditText

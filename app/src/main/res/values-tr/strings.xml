@@ -49,13 +49,17 @@
     <string name="addeddia">Elmas Eklendi</string>
     <string name="forgotinfo">Gelen kutusunu ve spam kutusunu kontrol edin.</string>
     <string name="register">Hesap Oluştur</string>
-    <string name="comeon">Sıradaki Çark</string>
+    <string name="comeon">Sıradaki</string>
     <string name="about">Uygulama Hakkında</string>
     <string name="info">Çark çevirerek, reklam izleyerek ve arkadaşlarınızı davet ederek elmas kazanırsınız. Bu elmasları altına çevirerek mağazadan kod satın alabilirsiniz. 250 elmas 1 altına eşittir. Bir arkadaşınızı davet ettiğinizde 50 elmas, reklam izlediğinizde 3 elmas kazanırsınız.</string>
     <string name="nobalance">Yetersiz Bakiye!</string>
     <string name="succes">Satın Alma İşlemi Başarılı.</string>
     <string name="get_premium">HESABINIZI YÜKSELTİN</string>
-    <string name="premium_info">Çark çevirdiğinizde gelen sayının 2 katı kadar elmas kazanırsınız.</string>
+    <string name="premium_info">Çark çevirdiğinizde gelen sayının 2 katı kadar elmas kazanırsınız. \n Zar oyununun kilidini açarsınız. \n Bu tek seferlik bir ödemedir.</string>
+    <string name="dice">Zar At &amp; Kazan</string>
+    <string name="play">Oyna</string>
+    <string name="goladded">Altın Eklendi.</string>
+    <string name="upgrade_your_account_to_premium_and_enjoy_the_app_without_ads">Attığınız iki zarın toplamı kadar elmas kazanmak için hesabınızı yükseltmeniz gerekir.</string>
 
 
 </resources>

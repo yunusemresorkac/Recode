@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
@@ -93,6 +94,11 @@ public class SpinActivity extends AppCompatActivity {
         loadAds();
 
         setButtonForSpin();
+
+        new Handler().postDelayed(()-> pd.dismiss(),3000);
+
+
+
         binding.spinBtn.setOnClickListener(view -> {
             if (Appodeal.isLoaded(Appodeal.REWARDED_VIDEO) ){
                 Appodeal.show(this,Appodeal.REWARDED_VIDEO);
@@ -162,13 +168,11 @@ public class SpinActivity extends AppCompatActivity {
         Appodeal.setRewardedVideoCallbacks(new RewardedVideoCallbacks() {
             @Override
             public void onRewardedVideoLoaded(boolean b) {
-                pd.dismiss();
 
             }
 
             @Override
             public void onRewardedVideoFailedToLoad() {
-                pd.dismiss();
 
             }
 
@@ -390,12 +394,21 @@ public class SpinActivity extends AppCompatActivity {
     protected void onStart() {
         IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(networkChangeListener, intentFilter);
+        setButtonForSpin();
         super.onStart();
     }
 
     @Override
     protected void onStop() {
         unregisterReceiver(networkChangeListener);
+
         super.onStop();
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setButtonForSpin();
     }
 }

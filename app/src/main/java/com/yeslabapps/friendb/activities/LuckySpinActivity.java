@@ -248,13 +248,7 @@ public class LuckySpinActivity extends AppCompatActivity {
                                                         addBuyers();
 
                                                     }
-                                                }).addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Toast.makeText(LuckySpinActivity.this, getString(R.string.try_again), Toast.LENGTH_SHORT).show();
-
-                                                    }
-                                                });
+                                                }).addOnFailureListener(e -> Toast.makeText(LuckySpinActivity.this, getString(R.string.try_again), Toast.LENGTH_SHORT).show());
                                     }
 
 

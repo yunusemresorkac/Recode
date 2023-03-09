@@ -34,16 +34,14 @@
             android:textColor="@color/white"
             android:fontFamily="@font/sugarsnow"/>
 
-        <TextView
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/diamonds"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:fontFamily="@font/sugarsnow"
-            android:layout_gravity="end"/>
 
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_gravity="end"
+            android:src="@drawable/ic_baseline_diamond_24"
+            app:tint="@color/white" />
 
 
 

@@ -1,12 +1,17 @@
 package com.yeslabapps.friendb.fragments;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,7 +25,9 @@ import com.appodeal.ads.RewardedVideoCallbacks;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.yeslabapps.friendb.R;
+import com.yeslabapps.friendb.activities.DiceActivity;
 import com.yeslabapps.friendb.activities.LuckySpinActivity;
 import com.yeslabapps.friendb.activities.PaymentHistoryActivity;
 import com.yeslabapps.friendb.activities.SpinActivity;
@@ -61,13 +68,14 @@ public class HomeFragment extends Fragment implements OnClick {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         pd = new ProgressDialog(getContext(),R.style.CustomDialog);
-        pd.setCanceledOnTouchOutside(false);
+        pd.setCancelable(true);
         pd.show();
 
         setCircular();
         loadAds();
         initRecycler();
 
+        new Handler().postDelayed(()-> pd.dismiss(),3000);
 
         binding.goPremium.setOnClickListener(view -> startActivity(new Intent(getContext(), LuckySpinActivity.class)));
 
@@ -80,13 +88,11 @@ public class HomeFragment extends Fragment implements OnClick {
         Appodeal.setRewardedVideoCallbacks(new RewardedVideoCallbacks() {
             @Override
             public void onRewardedVideoLoaded(boolean b) {
-                pd.dismiss();
 
             }
 
             @Override
             public void onRewardedVideoFailedToLoad() {
-                pd.dismiss();
 
             }
 
@@ -203,7 +209,7 @@ public class HomeFragment extends Fragment implements OnClick {
         menuArrayList.add(new MyMenu(getString(R.string.watchearn), R.drawable.higher_order_functions_svgrepo_com));
         menuArrayList.add(new MyMenu(getString(R.string.spinearn), R.drawable.time_complexity_svgrepo_com));
         menuArrayList.add(new MyMenu(getString(R.string.inviteearn), R.drawable.community_share_svgrepo_com));
-        menuArrayList.add(new MyMenu(getString(R.string.history),R.drawable.scrum_svgrepo_com));
+        menuArrayList.add(new MyMenu(getString(R.string.dice),R.drawable.dice_svgrepo_com));
 
     }
 
@@ -239,7 +245,7 @@ public class HomeFragment extends Fragment implements OnClick {
                 break;
 
             case 3:
-                startActivity(new Intent(getContext(), PaymentHistoryActivity.class));
+                controlForDice();
 
                 break;
 
@@ -247,4 +253,35 @@ public class HomeFragment extends Fragment implements OnClick {
 
         }
     }
+    private void controlForDice(){
+        SharedPreferences preferences= getContext().getSharedPreferences("PREFS",0);
+        int accountType=preferences.getInt("accountType",0);
+        if(accountType==1){
+            startActivity(new Intent(getContext(), DiceActivity.class));
+        }else {
+            showPreDialog();
+        }
+    }
+
+
+    private void showPreDialog(){
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.bottom_inapp);
+
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        dialog.show();
+
+        MaterialButton button = dialog.findViewById(R.id.seePre);
+        button.setOnClickListener(view -> {
+            dialog.dismiss();
+            startActivity(new Intent(getContext(),LuckySpinActivity.class));
+        });
+    }
 }
+
+
+
+
+
